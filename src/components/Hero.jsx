@@ -48,7 +48,7 @@ export default function Hero() {
 
         <motion.div className="hero-stats" variants={item}>
           <div className="hero-stat"><div className="hero-stat-num">16</div><div className="hero-stat-lbl">services modeled</div></div>
-          <div className="hero-stat"><div className="hero-stat-num">26,000+</div><div className="hero-stat-lbl">validated calculations</div></div>
+          <div className="hero-stat"><div className="hero-stat-num">7.6M+</div><div className="hero-stat-lbl">validated calculations</div></div>
           <div className="hero-stat"><div className="hero-stat-num">2</div><div className="hero-stat-lbl">channels, one budget</div></div>
         </motion.div>
       </motion.div>

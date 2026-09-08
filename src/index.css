@@ -220,13 +220,22 @@ input,select{ font-family:inherit; touch-action:manipulation; }
 .hero-stat:last-child{ border-right:none; padding-right:0; }
 .hero-stat-num{ font-family:'IBM Plex Mono',monospace; font-size:21px; font-weight:700; }
 .hero-stat-lbl{ font-size:12px; color:var(--ink-soft); margin-top:3px; }
-/* Below ~380px (iPhone SE and similar) three 26px-padded stats plus their
-   dividers no longer fit one row without crowding - narrow the padding and
-   let the row wrap onto two lines with dividers only where a border still
-   makes sense, rather than letting text collide or clip. */
-@media (max-width:380px){
-  .hero-stat{ padding:0 14px; }
-  .hero-stat:nth-child(2){ border-right:none; }
+/* On phone, this used to be the same centered flex row squeezed into less
+   width, which forced it to wrap - and a wrapped flex row centers each
+   wrapped LINE independently, not each item, so a 3-item row wrapping to
+   "2 then 1" put the first two off-center as a pair and stranded the third
+   alone on its own centered line: nothing actually lined up with anything
+   else. A 3-column grid sidesteps that entirely - the row can never
+   reflow, each stat is centered within its own equal column no matter how
+   its label wraps, so all three stay genuinely aligned with each other at
+   any phone width, not just whichever one happens not to trigger a wrap. */
+@media (max-width:480px){
+  .hero-stats{ display:grid; grid-template-columns:1fr 1fr 1fr; width:100%; max-width:380px; row-gap:0; }
+  .hero-stat{ padding:0 8px; text-align:center; }
+  .hero-stat:first-child{ padding-left:0; }
+  .hero-stat:last-child{ padding-right:0; }
+  .hero-stat-num{ font-size:17px; }
+  .hero-stat-lbl{ font-size:10.5px; line-height:1.25; }
 }
 
 .scroll-cue{
@@ -414,6 +423,40 @@ select option{ background:var(--card); color:var(--ink); }
 .funnel-chain-value{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:17px; }
 .funnel-chain-label{ font-size:13px; color:var(--ink-soft); }
 .funnel-rate{ margin-top:14px; padding-top:14px; border-top:1px solid var(--hairline); font-size:13px; color:var(--ink-soft); }
+
+/* Phone-width fixes, measured at 320-430px rather than guessed:
+   - plan-split (the "85% Google · 15% Meta" header) wrapped to two lines
+     below ~400px at its 22px desktop size - scale it down so the full
+     line fits on one row on an actual phone.
+   - funnel-chain wrapped unevenly (2 items on row 1, then 1 item per row)
+     because flex-wrap packs items greedily with no control over how many
+     land per line. A vertical stack - one stage per row, the arrow rotated
+     to point down - reads as a clean, predictable list at any width instead
+     of a shape that changes jaggedly with the exact pixel budget. Each row
+     also nudges right a little more than the last, so the stack itself
+     reads as a gentle downward-right staircase (Leads above Qualified,
+     Qualified sitting slightly right of Leads, and so on) instead of a
+     flush-left list with no visual sense of flow beyond row order. */
+@media (max-width:480px){
+  .plan-split{ font-size:16px; gap:6px 8px; }
+  .plan-split-google, .plan-split-meta{ gap:5px; }
+
+  .funnel-chain{ flex-direction:column; align-items:flex-start; gap:8px; }
+  /* Rotated to point down-and-right (0deg = pointing right, 90deg = pointing
+     straight down; splitting the difference lands the arrowhead on a
+     diagonal) so it visually follows the same line the staircase indent
+     below is drawing, rather than a plain downward tick that reads as
+     disconnected from the step it's leading into. */
+  .funnel-chain-arrow{ display:inline-block; transform:rotate(65deg); margin-right:7px; font-size:16px; color:var(--ink-faint); }
+  .funnel-chain-item:nth-child(1){ margin-left:0; }
+  .funnel-chain-item:nth-child(2){ margin-left:14px; }
+  .funnel-chain-item:nth-child(3){ margin-left:28px; }
+  .funnel-chain-item:nth-child(4){ margin-left:42px; }
+}
+@media (max-width:340px){
+  .plan-split{ font-size:13px; gap:5px 6px; }
+  .plan-split-google, .plan-split-meta{ gap:4px; }
+}
 
 /* ---------- Channel cards ---------- */
 .channel-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
