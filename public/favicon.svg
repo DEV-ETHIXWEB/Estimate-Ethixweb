@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Forecast">
+  <!-- Three ascending bars - the app's own "revenue vs. budget" growth shape,
+       reduced to its simplest form. Matches the site's strict monochrome
+       palette (src/lib/theme.js) and swaps with the OS color scheme so the
+       icon reads correctly in a light or dark browser tab bar; this is the
+       same light/dark pair used throughout the app (#0A0A0B / #F5F5F4). -->
+  <style>
+    .bar { fill: #0A0A0B; }
+    @media (prefers-color-scheme: dark) {
+      .bar { fill: #F5F5F4; }
+    }
+  </style>
+  <rect class="bar" x="2.5" y="15" width="4.6" height="6.5" rx="1.15" />
+  <rect class="bar" x="9.7" y="9" width="4.6" height="12.5" rx="1.15" />
+  <rect class="bar" x="16.9" y="2.5" width="4.6" height="19" rx="1.15" />
+</svg>
